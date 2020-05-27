@@ -7,7 +7,7 @@ class player:  # B)
     def __init__(self, cards):
         self.cards : deck = deck(cards)
         self.deck : deck = deck(self.cards)
-        self.hand : deck = deck(deck.draw(5))
+        self.hand : deck = deck(self.deck.draw(5))
         self.discard : deck = deck([])
         self.actions : int = 1
         self.buys : int = 1

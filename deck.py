@@ -10,7 +10,7 @@ class deck:
         self.shuffle()
 
     def __len__(self):
-        return len(cards)
+        return len(self.cards)
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -18,7 +18,7 @@ class deck:
     def draw(self,count=1):
         if count < 0:
             raise ValueError("Cannot draw negative cards")
-        if count > len(self):
+        if count > len(self.cards):
             raise ValueError("Cannot draw more than the deck")
         if count == 0:
             return []
@@ -38,7 +38,7 @@ class deck:
         return len(cards) == 0
 
     def get_by_kind(self,kind,exact_match=False):
-        kind = kind.sorted()
+        kind = sorted(kind)
         my_cards : List[card] = []
         for card in self.cards:
             if kind==card.kind:
@@ -48,3 +48,10 @@ class deck:
                     if x in card.kind:
                         my_cards.append(card)
                         break
+        return my_cards
+    
+    def __iter__(self):
+        return iter(self.cards)
+
+    def __next__(self):
+        return next(self.cards)
