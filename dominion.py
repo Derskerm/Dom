@@ -16,8 +16,8 @@ class dominion:
         self.kingdom["gold"] = deck([card("gold","t",6,treasure=3)]*30)
         self.kingdom["silver"] = deck([card("silver","t",3,treasure=2)]*40)
         self.kingdom["copper"] = deck([card("copper","t",0,treasure=1)]*60)
-        for card in kingdom:
-            self.kingdom[card.name] = deck([card]*10)
+        for c in kingdom:
+            self.kingdom[c.name] = deck([c]*10)
         
     def turn(self, board_state, player):  # move forward one state
         while player.actions > 0:

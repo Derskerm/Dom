@@ -37,14 +37,14 @@ class deck:
     def is_empty(self):
         return len(cards) == 0
 
-    def get_by_type(self,type,exact_match=False):
-        type = type.sorted()
+    def get_by_kind(self,kind,exact_match=False):
+        kind = kind.sorted()
         my_cards : List[card] = []
         for card in self.cards:
-            if type==card.type:
+            if kind==card.kind:
                 my_cards.append(card)
             elif not exact_match:
-                for x in type:
-                    if x in card.type:
+                for x in kind:
+                    if x in card.kind:
                         my_cards.append(card)
                         break

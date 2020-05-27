@@ -3,29 +3,21 @@ from card import card
 import math
 
 class player:  # B)
-
-    deck : deck
-    discard : deck
-    cards : deck
-    hand : deck
-    victory : int
-    actions : int
-    buys : int
-    treasure : int
     
     def __init__(self, cards):
-        self.cards = deck(cards)
-        self.deck = deck(self.cards)
-        self.hand = deck(deck.draw(5))
-        self.discard = deck([])
-        self.actions = 1
-        self.buys = 1
-        self.treasure = 0
+        self.cards : deck = deck(cards)
+        self.deck : deck = deck(self.cards)
+        self.hand : deck = deck(deck.draw(5))
+        self.discard : deck = deck([])
+        self.actions : int = 1
+        self.buys : int = 1
+        self.treasure: int = 0
+        self.victory: int = 0
 
     def end_turn(self):
-        self.discard.topdeck(hand)
+        self.discard.topdeck(self.hand)
         self.cards = deck(self.deck.cards + self.discard.cards)
-        self.victory = sum(c.victory for c in self.cards.get_by_type('cv'))
+        self.victory = sum(c.victory for c in self.cards.get_by_kind('cv'))
         self.actions = 1
         self.buys = 1
         self.treasure = 0
@@ -78,8 +70,8 @@ class player:  # B)
             return None
         best_action = None
         best_reward = 0
-        for action_card in hand.get_by_type('a'):
-            a_CATB = action_card.evaluate(hand)
+        for action_card in self.hand.get_by_kind('a'):
+            a_CATB = action_card.evaluate(self.hand)
             a_reward = imitation_heuristic(action_card, a_CATB)
             if a_reward > best_reward or best_reward == 0:
                 best_action = action_card
