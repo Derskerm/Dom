@@ -15,6 +15,10 @@ class deck:
     def shuffle(self):
         random.shuffle(self.cards)
 
+    def peek(self, index):
+        if index >= 0 and index < len(self.cards):
+            return self.cards[index]
+
     def draw(self,count=1):
         if count < 0:
             raise ValueError("Cannot draw negative cards")
@@ -31,7 +35,7 @@ class deck:
     def topdeck(self,card):
         if type(card) is card:
             self.cards.append(card)
-        elif type(card) is list[card]:
+        elif type(card) is list:
             self.cards += card
 
     def is_empty(self):
@@ -50,6 +54,14 @@ class deck:
                         break
         return my_cards
     
+    def remove(self, card):
+        remove_index = 0
+        for c in self.cards:
+            if c.equals(card):
+                break
+        if remove_index < len(self.cards):
+            self.cards = self.cards[0:remove_index] + self.cards[remove_index + 1:]
+
     def __iter__(self):
         return iter(self.cards)
 

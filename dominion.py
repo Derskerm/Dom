@@ -20,18 +20,28 @@ class dominion:
             self.kingdom[c.name] = deck([c]*10)
         
     def turn(self, board_state, player):  # move forward one state
+        player.calculate_treasure()
         while player.actions > 0:
             action = player.pick_next_action(player.hand)
             if action:
                 self.evaluate_action(action, board_state, player)
+            else:
+                break
         while player.buys > 0:
-            buy = player.pick_next_buy()
-            player.discard.topdeck(self.kingdom[buy].draw())
+            buy = player.pick_next_buy(self.kingdom)
+            if buy:
+                player.buys = player.buys - 1
+                player.discard.topdeck(self.kingdom[buy].draw())
+                player.treasure -= self.kingdom[buy].peek(0).cost
+            else:
+                break
+        print(len(player.discard))
 
     
     def evaluate_action(self, action, board_state, player):
         a_CATB = {"cards": action.cards, "actions": action.actions, "treasure": action.treasure, "buys": action.buys}
         player.deck.draw(a_CATB["cards"])
-        player.actions = player.actions + a_CATB["actions"]
+        player.actions = player.actions + a_CATB["actions"] - 1
         player.treasure = player.treasure + a_CATB["treasure"]
         player.buys = player.buys + a_CATB["buys"]
+        player.hand.remove(action)

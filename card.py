@@ -19,3 +19,6 @@ class card:
         self.player_fn(player)
         for opponent in opponents:
             self.opponent_fn(opponent)
+
+    def equals(self, other):
+        return self.name.equals(other.name)

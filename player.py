@@ -58,12 +58,18 @@ class player:  # B)
 
     def get_CATB(self):
         map = {}
-        map["cards"] = len(cards)
-        map["actions"] = actions
-        map["treasure"] = treasure
-        map["buys"] = buys
+        map["cards"] = len(self.cards)
+        map["actions"] = self.actions
+        map["treasure"] = self.treasure
+        map["buys"] = self.buys
         return map
 
+    ###Only to be used once at the start of turn###
+    def calculate_treasure(self):
+    	treasure_val = 0
+    	for card in self.hand:
+    		treasure_val += card.treasure
+    	self.treasure = treasure_val
 
     def pick_next_action(self, CATB): 
         if self.actions == 0:
@@ -79,8 +85,8 @@ class player:  # B)
         return best_action
 
     def pick_next_buy(self, kingdom):
-        CATB = get_CATB()
-        buy_priority_list = generate_buy_priority_list()
+        CATB = self.get_CATB()
+        buy_priority_list = self.generate_buy_priority_list()
         index = 0
 
         if CATB["treasure"] >= 8:
@@ -95,9 +101,10 @@ class player:  # B)
             index = 4
         while len(kingdom[buy_priority_list[index]]) == 0:
             index += 1
+        return buy_priority_list[index]
 
-        def generate_buy_priority_list(self):
-            return ["province", "gold", "duchy", "silver", "estate"]
+    def generate_buy_priority_list(self):
+    	return ["province", "gold", "duchy", "village", "silver", "estate"]
 
     def imitation_heuristic(self, card, CATB):
         card_heur = math.log(CATB["cards"] * 4 + 1)
